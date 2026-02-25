@@ -1,4 +1,4 @@
-"""Tests for FileCache."
+"""Tests for FileCache."""
 
 import gzip
 import json
@@ -11,7 +11,6 @@ from datawiserai._cache import FileCache
 @pytest.fixture
 def cache(tmp_path):
     return FileCache(tmp_path / "cache")
-
 
 SAMPLE_DATA = {"ticker": "OLP", "securityId": "abc123", "events": []}
 
