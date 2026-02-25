@@ -1,5 +1,5 @@
 """
-Alpaca smoke test – intended to be run in GitHub Actions only.
+Alpaca smoke test - intended to be run in GitHub Actions only.
 
 Usage:
     python -m src.alpaca_smoke_test
@@ -32,17 +32,15 @@ def main() -> None:
         account = client.get_account()
         status = getattr(account, "status", "UNKNOWN")
         currency = getattr(account, "currency", "UNKNOWN")
-        print(f"PASS alpaca_account status={{status}} currency={{currency}}")
+        print("PASS alpaca_account status=" + str(status) + " currency=" + str(currency))
         sys.exit(0)
     except Exception as exc:  # noqa: BLE001
-        # Sanitise the error message so no secrets can leak.
         reason = str(exc)
         for secret in (api_key, secret_key):
             if secret:
                 reason = reason.replace(secret, "***")
-        # Truncate to avoid accidentally leaking long env-var values.
         reason = reason[:200]
-        print(f"FAIL alpaca_account {{reason}}")
+        print("FAIL alpaca_account " + reason)
         sys.exit(1)
 
 
