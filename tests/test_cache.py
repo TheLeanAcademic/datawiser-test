@@ -1,5 +1,6 @@
-"""Tests for FileCache."""
+"""Tests for FileCache."
 
+import gzip
 import json
 import pytest
 from pathlib import Path
@@ -23,7 +24,7 @@ class TestFileCachePut:
 
     def test_stored_data_is_readable(self, cache):
         cache.put("free-float", "OLP", SAMPLE_DATA, "2024-01-01T00:00:00Z")
-        with open(cache._path("free-float", "OLP")) as f:
+        with gzip.open(cache._path("free-float", "OLP"), "rt", encoding="utf-8") as f:
             entry = json.load(f)
         assert entry["data"] == SAMPLE_DATA
         assert entry["last_update"] == "2024-01-01T00:00:00Z"
