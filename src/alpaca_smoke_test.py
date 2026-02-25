@@ -27,7 +27,6 @@ def main() -> None:
             api_key=api_key,
             secret_key=secret_key,
             paper=True,
-            url_override="https://paper-api.alpaca.markets/v2",
         )
         account = client.get_account()
         status = getattr(account, "status", "UNKNOWN")
