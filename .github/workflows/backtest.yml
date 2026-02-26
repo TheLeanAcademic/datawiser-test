@@ -1,0 +1,57 @@
+name: simple-backtest
+
+on:
+  workflow_dispatch:
+
+concurrency:
+  group: backtest-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  backtest:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    permissions:
+      contents: read
+    env:
+      DATAWISER_API_KEY: ${{ secrets.DATAWISER_API_KEY }}
+      ALPACA_API_KEY: ${{ secrets.ALPACA_API_KEY }}
+      ALPACA_SECRET_KEY: ${{ secrets.ALPACA_SECRET_KEY }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install deps
+        run: |
+          test -f requirements.txt
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Cache price data
+        uses: actions/cache@v4
+        with:
+          path: data/cache
+          key: price-cache-${{ runner.os }}-${{ hashFiles('universe.txt') }}
+          restore-keys: |
+            price-cache-${{ runner.os }}-
+
+      - name: Run backtest
+        run: |
+          python -m src.backtest_simple
+
+      - name: Ensure outputs exist
+        run: |
+          test -d outputs
+          test -f outputs/results.csv
+          test -f outputs/summary.json
+          test -f outputs/report.md
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: simple-backtest-outputs
+          path: outputs/
