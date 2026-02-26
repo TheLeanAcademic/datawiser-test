@@ -1,0 +1,4 @@
+datawiserai>=0.1.5
+alpaca-py>=0.20.0
+pandas>=2.0.0
+pyarrow>=14.0.0
