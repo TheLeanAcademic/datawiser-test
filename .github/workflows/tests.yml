@@ -20,7 +20,7 @@ jobs:
       - name: Run unit tests
         run: pytest tests/ --ignore=tests/integration -q
 
-  integration-tests:
+  datawiser-smoke-test:
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -31,7 +31,7 @@ jobs:
           python-version: "3.11"
       - name: Install dependencies
         run: pip install -r requirements.txt
-      - name: Run integration tests
+      - name: Run DataWiser smoke test
         env:
           DATAWISER_API_KEY: ${{ secrets.DATAWISER_API_KEY }}
-        run: pytest tests/integration/ -v
+        run: python -m src.datawiser_smoke_test
