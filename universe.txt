@@ -1,0 +1,5 @@
+# Backtest universe
+# One symbol per line; blank lines and lines starting with # are ignored.
+AAPL
+MSFT
+OLP
