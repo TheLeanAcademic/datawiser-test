@@ -24,8 +24,8 @@ def main() -> None:
 
         client = Client(api_key)
         universe = client.universe("free-float")
-        count = len(universe.tickers)
-        print(f"PASS datawiser_smoke universe=free-float tickers={count}")
+        tickers = universe.tickers
+        print(f"PASS datawiser_smoke universe=free-float tickers={tickers}")
         sys.exit(0)
     except Exception as exc:  # noqa: BLE001
         reason = str(exc).replace(api_key, "***")[:200]
